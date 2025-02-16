@@ -1,8 +1,72 @@
+@import "@/scss/helper.scss";
+
 .mainComponent {
   width: 100%;
-  height: 100%;
-  border: 2px solid red;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.contentCardWrapper {
+  max-width: 540px;
+  width: 100%;
+  background: $darkGrayshBlue;
+  border-radius: 15px;
+  padding: 48px 48px 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  .contentFooter {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    .dividerWrapper {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+
+      .divider {
+        width: 100%;
+        height: 1px;
+        background: $grayshBlue;
+      }
+    }
+  }
+}
+
+.contentCard {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 24px;
+
+  .jokeNum {
+    font-size: 14px;
+    line-height: 22px;
+    color: $neonGreen;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .questionAnswerWrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .questionAnswer {
+      font-size: 28px;
+      line-height: 36px;
+      font-weight: 600;
+      span {
+        font-weight: bold;
+        color: $neonGreen;
+      }
+    }
+  }
 }

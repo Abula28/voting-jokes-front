@@ -1,4 +1,4 @@
-import Portal from "../portal/portal";
+import Portal from "../portal/Portal";
 import classes from "./Modal.module.scss";
 
 const Modal = () => {
