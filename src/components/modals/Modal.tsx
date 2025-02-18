@@ -3,11 +3,13 @@ import Portal from "../portal/Portal";
 import classes from "./Modal.module.scss";
 import { ModalProps } from "./ModalT";
 import { Button } from "../buttons/Buttons";
+import { useClickOutside } from "@/hooks";
 
 const Modal: React.FC<ModalProps> = ({
   open,
   title,
   eidtableValue,
+  loading,
   handleCancel,
   handleFiledChange,
   handleOk,
@@ -22,14 +24,24 @@ const Modal: React.FC<ModalProps> = ({
     };
   }, [open]);
 
+  const modalNode = useClickOutside(
+    () => {
+      handleCancel();
+    },
+    open ? open : false
+  );
+
   return (
     <Portal>
       <>
         <div
           className={`${classes.backdrop} ${open ? classes.active : ""}`}
         ></div>
-        <div className={`${classes.modal} ${open ? classes.open : ""}`}>
-          <div className={classes.mopdalContent}>
+        <div
+          className={`${classes.modal} ${open ? classes.open : ""}`}
+          ref={modalNode}
+        >
+          <div className={classes.modalContent}>
             <h1 className={classes.title}>{title}</h1>
 
             <div className={classes.inputContentWrapper}>
@@ -60,7 +72,12 @@ const Modal: React.FC<ModalProps> = ({
               <Button variant="secondary" size="small" onClick={handleCancel}>
                 Cancel
               </Button>
-              <Button variant="primary" size="small" onClick={handleOk}>
+              <Button
+                variant="primary"
+                size="small"
+                onClick={handleOk}
+                loading={loading}
+              >
                 Confirm
               </Button>
             </div>

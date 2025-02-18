@@ -10,12 +10,14 @@ export const Button: React.FC<ButtonProps> = ({
   ...rest
 }) => {
   const classes = `button ${size ? size : ""} ${variant} ${
-    loading ? "loading" : ""
-  } ${rest.className ? rest.className : ""}`;
+    rest.className ? rest.className : ""
+  }`;
+
+  const loaderClsases = `loader ${variant}`;
 
   return (
-    <button className={classes} {...rest} disabled={disabled}>
-      {children}
+    <button className={classes} {...rest} disabled={disabled || loading}>
+      {children} {loading && <div className={loaderClsases}></div>}
     </button>
   );
 };

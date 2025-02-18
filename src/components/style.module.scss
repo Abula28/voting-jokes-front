@@ -6,6 +6,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-inline: 16px;
 }
 
 .contentCardWrapper {
@@ -22,6 +23,7 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
+
     .dividerWrapper {
       width: 100%;
       display: flex;
@@ -65,14 +67,49 @@
     flex-direction: column;
     gap: 12px;
 
-    .questionAnswer {
-      font-size: 24px;
-      line-height: 32px;
-      font-weight: 600;
-      span {
-        font-weight: bold;
+    .textContentWrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      .contentTitle {
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 600;
         color: $neonGreen;
+      }
+
+      .questionAnswer {
+        font-size: 24px;
+        line-height: 32px;
+        font-weight: 600;
       }
     }
   }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fadeOut {
+  animation: fadeOut 0.5s forwards;
+}
+
+.fadeIn {
+  animation: fadeIn 0.5s forwards;
 }

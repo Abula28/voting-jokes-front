@@ -5,4 +5,5 @@ export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
   open: boolean;
   title: string;
   eidtableValue: { question: string; answer: string };
+  loading?: boolean;
 }
