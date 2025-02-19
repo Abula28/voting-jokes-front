@@ -14,10 +14,16 @@
   width: 100%;
   background: $darkGrayshBlue;
   border-radius: 15px;
-  padding: 48px 48px 72px;
   display: flex;
   flex-direction: column;
   gap: 40px;
+  position: relative;
+
+  padding: 40px 20px;
+
+  @include media(tablet) {
+    padding: 48px 48px 72px;
+  }
 
   .contentFooter {
     display: flex;
@@ -41,6 +47,7 @@
     .actionButtons {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       gap: 28px;
     }
   }
@@ -84,6 +91,77 @@
         line-height: 32px;
         font-weight: 600;
       }
+    }
+  }
+}
+
+.votes {
+  position: absolute;
+  bottom: -30px;
+  left: 0px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  @include media(tablet) {
+    left: 48px;
+  }
+
+  .voteWrapper {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 4px;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+
+    &:hover {
+      border: 1px solid $neonGreen;
+    }
+
+    &.active {
+      border: 1px solid $neonGreen;
+      background: #6efdb62a;
+
+      &:hover {
+        background: transparent;
+      }
+    }
+  }
+}
+
+.emojiPicker {
+  position: absolute;
+  right: 24px;
+  bottom: -10px;
+  cursor: pointer;
+}
+
+.availableEmojis {
+  position: absolute;
+  right: 24px;
+  bottom: 20px;
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  z-index: 2;
+  border-radius: 100px;
+  background: $darkGrayshBlue;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  .vote {
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 8px;
+
+    &:hover {
+      scale: 1.1;
+    }
+
+    &.active {
+      background: $grayshBlue;
     }
   }
 }

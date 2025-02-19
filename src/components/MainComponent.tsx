@@ -8,6 +8,8 @@ import {
   useGetJokeByIdReq,
   useGetRandomJokeReq,
   usePostJokeReq,
+  usePostUnvoteJokeReq,
+  usePostVoteJokeReq,
   usePutJokeReq,
 } from "@/api";
 import {
@@ -15,6 +17,7 @@ import {
   NotifySuccess,
 } from "./snackbar-notifications/SnackbarNotifications";
 import { JokeI } from "@/types";
+import { EmojiPickerIcon24 } from "@/assets/svg";
 
 const MainComponent = () => {
   const [jokeData, setJokeData] = useState<JokeI>();
@@ -26,16 +29,24 @@ const MainComponent = () => {
     answer: string;
   }>({ _id: "", question: "", answer: "" });
   const [animationClass, setAnimationClass] = useState("");
+  const [showVotes, setShowVotes] = useState<boolean>(false);
+  const [userVotes, setUserVotes] = useState<string[]>([]);
 
   const { mutate: getRandomJoke } = useGetRandomJokeReq();
   const { mutate: updateJoke, isPending: isEditLoading } = usePutJokeReq();
   const { mutate: getJoke } = useGetJokeByIdReq();
   const { mutate: createJoke, isPending: isCreateLoading } = usePostJokeReq();
-  const { mutate: deleteJoke, isPending: isDeleteLoading } = useDeleteJokeReq();
+  const { mutate: deleteJoke } = useDeleteJokeReq();
+  const { mutate: postVote } = usePostVoteJokeReq();
+  const { mutate: postUnvote } = usePostUnvoteJokeReq();
 
   const handleGetRandomJoke = () => {
     getRandomJoke(undefined, {
       onSuccess(data) {
+        setUserVotes((prev) => {
+          if (data._id === jokeData?._id) return prev;
+          return [];
+        });
         setJokeData(data);
       },
     });
@@ -120,6 +131,47 @@ const MainComponent = () => {
     });
   };
 
+  const handleShowVotes = () => {
+    setShowVotes(!showVotes);
+  };
+
+  const handleVote = (label: string) => {
+    if (!userVotes.includes(label)) {
+      postVote(
+        { id, label, value: 1 },
+        {
+          onSuccess: () => {
+            getJoke(id, { onSuccess: (data) => setJokeData(data) });
+            setUserVotes((prev) => [...prev, label]);
+            setShowVotes(false);
+          },
+          onError: (e) => {
+            console.log(e);
+            NotifyError("Something went wrong");
+          },
+        }
+      );
+      return;
+    }
+    postUnvote(
+      {
+        id,
+        label,
+      },
+      {
+        onSuccess: () => {
+          getJoke(id, { onSuccess: (data) => setJokeData(data) });
+          setUserVotes((prev) => prev.filter((e) => e !== label));
+          setShowVotes(false);
+        },
+        onError: (e) => {
+          console.log(e);
+          NotifyError("Something went wrong");
+        },
+      }
+    );
+  };
+
   return (
     <>
       <Modal
@@ -169,6 +221,38 @@ const MainComponent = () => {
                 Next
               </Button>
             </div>
+          </div>
+
+          <div className={classes.votes}>
+            {jokeData.votes.map((e) => (
+              <div
+                className={`${classes.voteWrapper} ${
+                  userVotes.includes(e.label) && classes.active
+                }`}
+                onClick={() => handleVote(e.label)}
+              >
+                <span className={classes.vote}>{e.label}</span>
+                <span className={classes.voteValue}>{e.value}</span>
+              </div>
+            ))}
+          </div>
+
+          {showVotes && (
+            <div className={classes.availableEmojis}>
+              {jokeData.availableVotes.map((e) => (
+                <span
+                  className={`${classes.vote} ${
+                    userVotes.includes(e) && classes.active
+                  }`}
+                  onClick={() => handleVote(e)}
+                >
+                  {e}
+                </span>
+              ))}
+            </div>
+          )}
+          <div className={classes.emojiPicker} onClick={handleShowVotes}>
+            <EmojiPickerIcon24 />
           </div>
         </div>
       </div>

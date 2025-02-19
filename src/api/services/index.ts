@@ -1,9 +1,17 @@
-import { JokeI } from "@/types";
+import { JokeI, VoteT } from "@/types";
 import { axiosClient } from "../axiosClient";
 import { endpoints } from "../endpoints";
 
 // ========== GET SERVICES ========== //
-const { getRandomJoke, postJoke, getJokeById, putJoke, deleteJoke } = endpoints;
+const {
+  getRandomJoke,
+  postJoke,
+  getJokeById,
+  putJoke,
+  deleteJoke,
+  postVoteJoke,
+  postUnvoteJoke,
+} = endpoints;
 export const getRandomJokeService = async (): Promise<JokeI> => {
   const httpRequest = await axiosClient.get(getRandomJoke);
 
@@ -23,6 +31,24 @@ export const postJokeService = async (data: {
   answer: string;
 }): Promise<{ message: string }> => {
   const httpRequest = await axiosClient.post(postJoke, data);
+
+  return httpRequest.data;
+};
+
+export const postJokeVoteService = async (
+  id: string,
+  data: VoteT
+): Promise<{ message: string }> => {
+  const httpRequest = await axiosClient.post(postVoteJoke(id), data);
+
+  return httpRequest.data;
+};
+
+export const postUnvoteJokeService = async (
+  id: string,
+  label: string
+): Promise<{ message: string }> => {
+  const httpRequest = await axiosClient.post(postUnvoteJoke(id), { label });
 
   return httpRequest.data;
 };
