@@ -1,50 +1,93 @@
-# React + TypeScript + Vite
+# Voting Jokes Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend part of the **Voting Jokes** project, a fun web application where users can vote on daily jokes using emoji reactions. The frontend is built using **React** with **TypeScript**, and it interacts with a **Node.js backend API** to fetch jokes, submit votes, and manage joke data.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **Fetch Random Joke**: Users can fetch a random joke from the backend API.
+- **Vote on Jokes**: Users can vote on jokes using emoji reactions.
+- **Update Jokes**: Users can update the content of a joke.
+- **Delete Jokes**: Users can delete the current joke.
+- **Smooth Navigation**: Users can navigate between jokes using the "Next Joke" button.
+- **Modern UI**: The user interface is clean and intuitive, built with **Sass** for styling.
+- **State Management**: The app uses **React Query** for data fetching and state management.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+---
 
-- Configure the top-level `parserOptions` property like this:
+## Technologies Used
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- **React**: A JavaScript library for building user interfaces.
+- **TypeScript**: A typed superset of JavaScript that compiles to plain JavaScript.
+- **React Query**: For data fetching and state management.
+- **Axios**: For making HTTP requests to the backend API.
+- **Sass**: A CSS preprocessor for styling the application.
+- **Vite**: A fast build tool for modern web projects.
+- **Notistack**: For displaying snackbar notifications.
+
+---
+
+## API Endpoints
+
+The frontend interacts with the backend using the following endpoints:
+
+```typescript
+export const endpoints = {
+  getRandomJoke: "/jokes",
+  postJoke: "/jokes/create",
+  getJokeById: (id: string) => `/jokes/${id}`,
+  postVoteJoke: (id: string) => `/jokes/vote/${id}`,
+  postUnvoteJoke: (id: string) => `/jokes/unvote/${id}`,
+  putJoke: (id: string) => `/jokes/${id}`,
+  deleteJoke: (id: string) => `/jokes/${id}`,
+};
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+---
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## Environment Variables
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+The app uses the following environment variable to connect to the backend API:
+
+```env
+VITE_APP_API_URL=your_backend_api_url
 ```
+
+Make sure to add this variable to your .env file before running the app.
+
+---
+
+## Getting Started
+
+Prerequisites
+
+- **Node.js**: Make sure you have Node.js installed on your machine.
+- **npm**: npm is bundled with Node.js, so you don't need to install it separately.
+
+Installation
+
+1. **Clone the repository:**
+```bash
+git clone https://github.com/your-username/voting-jokes-front.git
+cd voting-jokes-front
+```
+2. **Install dependencies:**
+```bash
+npm install
+```
+3. **Run the development server:**
+```bash
+npm run dev
+```
+
+---
+
+## Acknowledgments
+- **Vite**: For providing a fast and modern build tool.
+- **React Query**: For simplifying data fetching and state management.
+- **Notistack**: For making it easy to display notifications.
+
+---
+
+Happy Coding! 🚀
